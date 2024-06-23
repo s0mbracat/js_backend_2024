@@ -27,7 +27,7 @@ app.get('/tasks/:id', async function(req, res){
 	res.send(data);
 });
 
-app.post('/tasks/', async function(req, res){
+app.post('/tasks', async function(req, res){
 	const task = {...req.body, done: false};
 	const collection = await getDBCollection('mongodb://127.0.0.1', 'todoapp', 'tasks');
 	await collection.insertOne(task);
@@ -35,7 +35,7 @@ app.post('/tasks/', async function(req, res){
 });
 
 app.patch('/tasks/:id', async function(req, res){
-	const collection = getDBCollection('mongodb://127.0.0.1', 'todoapp', 'tasks');
+	const collection = await getDBCollection('mongodb://127.0.0.1', 'todoapp', 'tasks');
 	const data = await collection.updateOne({_id: new ObjectId(req.params.id)}, {'$set': req.body});
 	res.send({});
 });
